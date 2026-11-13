@@ -2,9 +2,9 @@
 
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
-| Cao Minh Quang | 2A202603906 | **TV1** · §1 lát cắt, phạm vi và bộ dữ liệu dựng · §2 viết 11 kịch bản rủi ro, khoanh 2 kịch bản đắt nhất · §6 ba tiêu chí Pass/Fail và chấm thử · dựng khung repo, review và merge các nhánh vào `main` · demo phần mở đầu (lát cắt + kịch bản) |
-| ____ | ____ | **TV2** · §3 thiết kế khi AI sai (câu AI nói nguyên văn, người dùng thấy gì, ai được báo, loại lỗi, HAX/PAIR) · §4 mức tự chủ cho 5 tool + tool tách bước, tool khó xếp nhất, thử trên 3 kịch bản · demo phần "khi AI sai và mức tự chủ" |
-| ____ | ____ | **TV3** · dựng prototype HTML 2 màn hình (người mua · người bán & nhân viên sàn) và lời gọi AI thật · chụp ảnh đánh số · §5 prototype · §7 kịch bản demo và ghi ca lạ · demo bấm prototype + trả lời ca lạ |
+| Cao Minh Quang | 2A202603906 | · §1 lát cắt, phạm vi và bộ dữ liệu dựng · §2 viết 11 kịch bản rủi ro, khoanh 2 kịch bản đắt nhất · §6 ba tiêu chí Pass/Fail và chấm thử · dựng khung repo, review và merge các nhánh vào `main` · demo phần mở đầu (lát cắt + kịch bản) |
+| Nguyễn Năng Thịnh | 2A202604028 | · §3 thiết kế khi AI sai (câu AI nói nguyên văn, người dùng thấy gì, ai được báo, loại lỗi, HAX/PAIR) · §4 mức tự chủ cho 5 tool + tool tách bước, tool khó xếp nhất, thử trên 3 kịch bản · demo phần "khi AI sai và mức tự chủ" |
+| ____ | ____ | · dựng prototype HTML 2 màn hình (người mua · người bán & nhân viên sàn) và lời gọi AI thật · chụp ảnh đánh số · §5 prototype · §7 kịch bản demo và ghi ca lạ · demo bấm prototype + trả lời ca lạ |
 
 ## §1. Lát cắt & phạm vi
 **Lát cắt (chép từ track, không chọn lại).** Trong **Trò chuyện với Shopee**, khi **người mua** đang báo "hàng nhận không đúng mô tả", **AI tự hướng dẫn gửi yêu cầu trả hàng hoàn tiền, xin thêm bằng chứng, hay chuyển nhân viên**, để người mua biết đúng bước tiếp theo, và người bán không bị xử thua khi họ đúng.
