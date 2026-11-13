@@ -87,15 +87,57 @@ Không câu chữ nào cứu được một AI **đang nhìn sai tài liệu**: 
 
 
 ## §4. Mức tự chủ  (chặng 4)
-Với mỗi tool:
-- Mức của nhóm (tự làm / cần người duyệt / cấm). Nếu cần người duyệt: ai duyệt · người duyệt thấy gì · quá hạn thì sao.
-- Lý do theo cost-of-error: sai thì ai chịu gì · đảo lại được không · chờ người thì mất gì.
-- Phương án đã cân nhắc và vì sao loại.
-Thêm:
-- Tool khó xếp nhất: mỗi người từng chọn gì, cái giá của mỗi phía (trỏ về kịch bản ở §2), nhóm chốt thế nào.
-- Thử mức đã đặt trên 2 kịch bản đắt nhất + 1 kịch bản bình thường: cái sai có bị chặn không? còn việc nào làm khi lẽ ra phải hỏi? người dùng bình thường có phải chờ vô ích không?
-- Luật thêm hoặc tool tách bước (nếu có), và vì sao.
-- Một mức tự chủ đã đổi lời hứa nào với người dùng.
+Nguyên tắc chung nhóm rút ra: **tiền chỉ đi khi bên chịu thiệt tự đồng ý, hoặc nhân viên sàn duyệt khi hai bên tranh chấp.** AI được tự làm mọi việc **rẻ khi sai và đảo được**; AI **soạn** nhưng không **thực hiện** việc chuyển tiền; AI **không có** việc xử phạt.
+
+### Mức cho từng tool
+
+| Tool | Mức của nhóm | Sai thì ai chịu gì · đảo được không | Chờ người thì mất gì | Phương án đã cân nhắc và vì sao loại |
+|---|---|---|---|---|
+| `xem_mo_ta_luc_dat` *(nhóm thêm, chỉ đọc)* — lấy bản mô tả sàn lưu lúc đặt + lịch sử sửa | **Tự làm** | Chỉ đọc, không thay đổi gì. Thiếu tool này thì AI không có căn cứ đúng (K4) | — | Không thêm, để AI đọc trang sản phẩm → loại: đó chính là lỗi K4 |
+| `yeu_cau_bang_chung` — gửi mẫu xin bằng chứng cho người mua / người bán | **Tự làm**, kèm 3 luật: (1) chỉ sau khi đã xác định đúng đơn (K2); (2) tin tới người bán có **10 giây "Huỷ gửi"** (K11); (3) mẫu phải nói rõ **còn thiếu đúng cái gì**, không xin lại thứ đã có | Tin **đã tới, không thu hồi**, nhưng nội dung chỉ là xin bằng chứng: sai thì một bên bị hỏi thừa một câu, hoặc một shop không liên quan nhận tin. Hại thấp, đã chặn bằng luật (1)(2) | Rất đắt: mỗi giờ chờ là một giờ trong 48 giờ của người bán và 7 ngày của người mua bị đốt. Bắt duyệt ở đây = "vòng vo" mà người mua phàn nàn | **Cần duyệt** → loại vì chờ đắt hơn sai · **Tự làm không luật** → loại vì K2/K11 gửi nhầm shop |
+| `chuyen_truong_nhom` — chuyển hồ sơ cho trưởng nhóm | **Tự làm + hoàn tác** (người mua bấm "Huỷ chuyển" khi nhân viên chưa nhận). **Bắt buộc** chuyển khi: người mua đòi gặp người · nghi hàng giả (gắn nhãn chuyển bộ phận chuyên trách) · không có thông số để so · hết 48 giờ người bán chưa phản hồi · người bán bấm "Không đồng ý" | Đảo được. Sai thì tốn giờ nhân viên và người mua chờ tối đa 24 giờ thay vì được AI trả lời | Chuyển người là đường lui của mọi ca khác; bắt duyệt việc "gọi người" là vô lý | **Cần duyệt** → loại · **Chỉ chuyển khi người dùng đòi** → loại vì K6 (hàng giả) cần đi chuyên trách dù người mua không đòi |
+| `soan_hoan_tien` — hoàn tiền cho người mua · **nhóm tách làm hai** ↓ | | | | |
+| ↳ `soan_de_xuat_hoan_tien` *(mới)* — tạo bản đề xuất trả hàng–hoàn tiền, hiện cho hai bên | **Tự làm** | Chỉ là một bản nháp có trạng thái "Chưa hoàn tiền"; người bán / nhân viên thấy và bác được | — | — |
+| ↳ `thuc_hien_hoan_tien` — chuyển tiền thật về người mua | **Cần người duyệt.** Ai duyệt: **người bán** bấm "Đồng ý trả hàng–hoàn tiền" (bên chịu thiệt tự đồng ý), **hoặc nhân viên sàn** khi tranh chấp. AI **không bao giờ** tự thực hiện | **Khó đảo**: tiền đã về người mua; người bán mất tiền, và mất hàng nếu hàng không trả về (K3, K5, K10) | Người mua chờ tối đa 48 giờ (người bán) + 24 giờ (nhân viên); hạn trả hàng của người mua **được giữ** nên chờ không làm mất quyền | Xem "tool khó xếp nhất" bên dưới |
+| `tu_choi_khieu_nai` — đóng khiếu nại, tiền về người bán | **Cần người duyệt — chỉ nhân viên sàn**, và nút **khoá** cho tới khi người mua đã được xin bằng chứng **và** (người bán đã phản hồi **hoặc** hết 48 giờ). Người mua **tự rút** khiếu nại thì không cần nhân viên (bên chịu thiệt tự đồng ý). AI chỉ được ghi "chưa đủ căn cứ" vào hồ sơ | **Khó đảo**: tiền về người bán, người mua giữ hàng sai và mất 1.290.000đ (K4, K8) | Tiền của người bán bị treo thêm tới 24 giờ | **Cấm** → loại: ca thật sự vô căn cứ sẽ treo mãi, người bán bị giữ tiền — chờ cũng là một kiểu sai với người bán · **Người bán duyệt** → loại: người bán là bên hưởng lợi, không thể tự xử mình thắng |
+| `phat_shop` — trừ điểm uy tín, khoá shop | **Cấm.** Prototype **không có nút** này ở bất kỳ màn nào. Nghi hàng giả → `chuyen_truong_nhom` nhãn "bộ phận chuyên trách" | Khó đảo, ảnh hưởng **cả shop** và mọi đơn khác. Căn cứ trong một cuộc chat (lời một người mua, lời doạ — K5, K6) không bao giờ đủ; một bước xác nhận của nhân viên khiếu nại cũng không đủ, cần điều tra riêng | Hàng giả tiếp tục bán thêm vài ngày → do bộ phận chuyên trách xử lý theo quy trình riêng, không phải việc của trợ lý | **Cần nhân viên khiếu nại duyệt** → loại vì người duyệt chỉ thấy một khiếu nại, không đủ để phạt cả shop |
+
+### Tool khó xếp nhất: `soan_hoan_tien`
+
+Mỗi người tự xếp trước, không bàn (5 phút), rồi so:
+
+| Ai | Chọn | Cái giá — trỏ về kịch bản §2 |
+|---|---|---|
+| TV1 | Tự làm nếu đơn **dưới 200.000đ** | Nhanh cho K1 (áo 189.000đ). Nhưng ngưỡng không đổi việc ai đúng: một ca K3 giá rẻ vẫn làm người bán đúng mất tiền; ngưỡng còn dạy người mua chia nhỏ khiếu nại |
+| TV2 | Cần **nhân viên** duyệt mọi ca | An toàn cho K3. Nhưng K1 — shop đã thừa nhận gửi nhầm — người mua vẫn chờ nhân viên tới 24 giờ **vô ích**, đúng lời phàn nàn "vòng vo" |
+| TV3 | Tự làm nếu **người bán đã thừa nhận trong chat** | Nhanh cho K1. Nhưng AI phải tự hiểu tin chat ("ok shop nhận được rồi" là nhận lỗi hay nhận tin?) — một câu hiểu sai là K3 |
+
+**Chốt:** tách `soan_hoan_tien` thành **soạn** (AI tự làm) và **thực hiện** (cần duyệt), và chọn **người duyệt theo ai chịu thiệt**: người bán tự bấm "Đồng ý" bằng **một nút rõ ràng** (không để AI đoán ý từ tin chat — khắc phục điểm yếu phương án TV3); chỉ khi người bán không đồng ý hoặc không trả lời thì nhân viên duyệt (giữ điểm mạnh phương án TV2). Ngưỡng tiền của TV1 bị loại vì nó không liên quan tới ai đúng.
+
+### Thử mức đã đặt trên 3 kịch bản
+
+| Kịch bản | AI làm gì · người dùng thấy gì | Cái sai ở §2 có bị chặn? | Còn việc AI làm khi lẽ ra phải hỏi? | Người dùng bình thường phải chờ vô ích? |
+|---|---|---|---|---|
+| **K3** (ca A, người bán đúng) | `xem_mo_ta_luc_dat` → trả lời "chưa đủ căn cứ" + 1 câu hỏi · `yeu_cau_bang_chung` tới người bán (10 giây huỷ) · không có đề xuất tiền | **Có.** Không có đường nào tới `thuc_hien_hoan_tien` mà thiếu người bán/nhân viên | Không. AI hỏi chỗ đo thay vì đoán | Người mua không được hoàn ngay — **đúng**, vì người bán đúng. Người mua biết lý do và còn thiếu gì |
+| **K4** (ca B, mô tả bị sửa) | `xem_mo_ta_luc_dat` (thấy diff) → `soan_de_xuat_hoan_tien` → người bán thấy đề xuất, 48 giờ | **Có.** `tu_choi_khieu_nai` không có ở phía AI; nhân viên chỉ thấy nút này sau 48 giờ, kèm diff | Có một điểm: AI tự **soạn đề xuất** khi người mua chưa gửi ảnh. Nhóm chấp nhận vì đề xuất không làm tiền đi và người bán bác được | Người mua chờ tối đa 48 + 24 giờ, nhưng hạn được giữ và mốc được báo trước. Chấp nhận được với một đơn đang tranh chấp |
+| **K1** (bình thường: áo gửi nhầm, shop đã nhận) | `soan_de_xuat_hoan_tien` → người bán bấm "Đồng ý" (thường trong vài phút vì đã thừa nhận) → hướng dẫn gửi trả | Không có cái sai để chặn; điểm chính là **không bắt chờ** | Không | **Không** phải chờ nhân viên. Đây là lý do nhóm cho người bán duyệt, thay vì chỉ nhân viên |
+
+### Luật thêm và tool tách bước
+
+- **Thêm `xem_mo_ta_luc_dat`** (chỉ đọc) và luật "AI chỉ dùng bản lưu lúc đặt làm căn cứ" → chặn **K4**.
+- **Tách `soan_hoan_tien` thành soạn / thực hiện** → chặn **K3, K5, K10** (không câu chữ hay lời doạ nào làm tiền đi) mà K1 vẫn nhanh.
+- **10 giây "Huỷ gửi"** cho tin tới người bán + "chỉ gửi sau khi xác định đơn" → chặn **K2, K11**.
+- **Lời doạ không là căn cứ:** AI gắn nhãn "có lời doạ" cho nhân viên, nhưng nhãn này không được làm tăng độ chắc hay mở bước nào → chặn **K5**.
+- **AI không đọc trường liên hệ** (số điện thoại, địa chỉ) của bên kia → chặn **K7** bằng quyền dữ liệu, không phải bằng việc AI tự kiềm chế.
+- **Giữ hạn của người mua** khi yêu cầu đang chờ người bán / nhân viên → chờ không biến thành mất quyền.
+
+### Một mức tự chủ đã đổi lời hứa với người dùng
+
+Nếu `soan_hoan_tien` ở mức **tự làm**, lời hứa là *"Trợ lý giải quyết khiếu nại cho bạn ngay trong chat"*. Với mức nhóm chọn, lời hứa đổi thành:
+
+> *"Trợ lý kiểm tra giúp bạn theo mô tả lúc bạn đặt và soạn sẵn yêu cầu. Tiền chỉ được hoàn khi người bán đồng ý hoặc nhân viên sàn duyệt — trong lúc chờ, hạn của bạn được giữ."*
+
+Lời hứa nhỏ hơn, nhưng là lời hứa giữ được với **cả hai bên** — người bán nghe được câu "bên tôi đúng thì có người nghe" ngay trong sản phẩm. Câu này nằm ở thanh đầu khung chat của prototype (❶).
 
 ## §5. Prototype  (chặng 5)
 - Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
